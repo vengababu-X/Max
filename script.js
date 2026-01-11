@@ -1,36 +1,25 @@
-const statusText = document.getElementById("status");
+const status = document.getElementById("status");
 
-document.body.addEventListener("click", () => {
-  speak("Max is ready. Speak now.");
-  listen();
-});
-
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-const recognition = new SpeechRecognition();
-recognition.lang = "en-US";
-recognition.continuous = false;
-
-function listen() {
-  recognition.start();
-  statusText.innerText = "Listening...";
-}
-
-recognition.onresult = async (event) => {
-  const text = event.results[0][0].transcript;
-  statusText.innerText = "Thinking...";
-
-  const res = await fetch("/max", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt: text })
-  });
-
-  const data = await res.json();
-  speak(data.reply);
-  statusText.innerText = data.reply;
+document.body.onclick = () => {
+  speak("Hello Xking sir. I am Max. I am online.");
+  status.innerText = "Max is online";
 };
+
+function ask(q) {
+  let reply = "I am listening, Xking.";
+
+  if (q === "hello") reply = "Hello Xking sir. How can I help you?";
+  if (q === "who built you") reply = "Xking is my boss. He built me.";
+  if (q === "why are you built") reply = "I was built to serve my boss Xking.";
+  if (q === "what can you do") reply = "I can assist you and listen to you, Xking.";
+
+  status.innerText = reply;
+  speak(reply);
+}
 
 function speak(text) {
   const u = new SpeechSynthesisUtterance(text);
+  u.rate = 0.9;
+  u.pitch = 0.9;
   speechSynthesis.speak(u);
 }
