@@ -2,22 +2,20 @@
 <html>
 <head>
   <title>MAX AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="container">
+    <div id="core"></div>
+    <h1 id="status">Tap to talk to Max</h1>
 
-<div id="container">
-  <div id="core"></div>
-  <h1 id="status">Tap to wake Max</h1>
-
-  <div id="panel">
-    <button onclick="ask('hello')">Hello</button>
-    <button onclick="ask('who built you')">Who built you?</button>
-    <button onclick="ask('why are you built')">Why are you built?</button>
-    <button onclick="ask('what can you do')">What can you do?</button>
+    <div id="panel">
+      <input id="input" placeholder="Type to Max..." />
+      <button onclick="send()">Send</button>
+    </div>
   </div>
-</div>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
