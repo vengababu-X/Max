@@ -1,26 +1,35 @@
+const OPENAI_KEY = "PUT_YOUR_OPENAI_KEY_HERE";
+
 const status = document.getElementById("status");
 const input = document.getElementById("input");
 
-async function send() {
-  const text = input.value;
-  if (!text) return;
-
+async function ask() {
+  const q = input.value;
   status.innerText = "Thinking...";
 
-  const res = await fetch("https://YOUR_WORKER_URL/max", {
+  const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: text })
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + OPENAI_KEY
+    },
+    body: JSON.stringify({
+      model: "gpt-4o-mini",
+      messages: [
+        { role: "system", content: "You are Max, loyal assistant to Xking." },
+        { role: "user", content: q }
+      ]
+    })
   });
 
   const data = await res.json();
-  status.innerText = data.reply;
-  speak(data.reply);
+  const reply = data.choices[0].message.content;
+
+  status.innerText = reply;
+  speak(reply);
 }
 
 function speak(text) {
   const u = new SpeechSynthesisUtterance(text);
-  u.rate = 0.9;
-  u.pitch = 0.9;
   speechSynthesis.speak(u);
 }
