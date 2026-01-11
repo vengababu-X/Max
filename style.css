@@ -9,13 +9,11 @@ body {
   color: white;
 }
 
-#container {
-  text-align: center;
-}
+#container { text-align: center; }
 
 #core {
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
   background: radial-gradient(#00ffff,#003344);
   box-shadow: 0 0 40px #00ffff;
@@ -25,19 +23,14 @@ body {
 
 @keyframes pulse {
   0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
+  50% { transform: scale(1.12); }
   100% { transform: scale(1); }
-}
-
-#panel {
-  margin-top: 20px;
 }
 
 #input {
   padding: 10px;
   width: 200px;
 }
-
 button {
   padding: 10px;
   background: black;
