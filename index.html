@@ -1,16 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
   <title>MAX AI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div id="container">
   <div id="core"></div>
-  <h1 id="status">Say "Max" to wake me</h1>
+  <h1 id="status">Tap to wake Max</h1>
+
+  <div id="panel">
+    <button onclick="ask('hello')">Hello</button>
+    <button onclick="ask('who built you')">Who built you?</button>
+    <button onclick="ask('why are you built')">Why are you built?</button>
+    <button onclick="ask('what can you do')">What can you do?</button>
+  </div>
 </div>
 
 <script src="script.js"></script>
