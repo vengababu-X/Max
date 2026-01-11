@@ -1,18 +1,18 @@
 const statusText = document.getElementById("status");
-
 let awake = false;
+
+const socket = new WebSocket("ws://192.168.0.103:3000");
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
-
 recognition.continuous = true;
 recognition.lang = "en-US";
 recognition.start();
 
 recognition.onresult = (event) => {
-  const transcript = event.results[event.results.length - 1][0].transcript.toLowerCase();
+  const speech = event.results[event.results.length - 1][0].transcript.toLowerCase();
 
-  if (!awake && transcript.includes("max")) {
+  if (!awake && speech.includes("max")) {
     awake = true;
     speak("Hello. I am Max. I am online.");
     statusText.innerText = "Listening...";
@@ -20,14 +20,19 @@ recognition.onresult = (event) => {
   }
 
   if (awake) {
-    statusText.innerText = "You said: " + transcript;
-    speak("I heard you say " + transcript);
+    statusText.innerText = "Thinking...";
+    socket.send(speech);
   }
 };
 
-function speak(text) {
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.rate = 0.9;
-  utter.pitch = 0.9;
-  speechSynthesis.speak(utter);
+socket.onmessage = (event) => {
+  statusText.innerText = event.data;
+  speak(event.data);
+};
+
+function speak(msg) {
+  const u = new SpeechSynthesisUtterance(msg);
+  u.rate = 0.9;
+  u.pitch = 0.9;
+  speechSynthesis.speak(u);
 }
