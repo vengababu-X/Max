@@ -1,6 +1,12 @@
 const statusText = document.getElementById("status");
 let awake = false;
 
+// Fix for Android: must be user-activated
+document.body.addEventListener("click", () => {
+  const test = new SpeechSynthesisUtterance("Max is ready.");
+  speechSynthesis.speak(test);
+});
+
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
 recognition.continuous = true;
@@ -12,8 +18,7 @@ recognition.onresult = (event) => {
 
   if (!awake && speech.includes("max")) {
     awake = true;
-    speak("Hello. I am Max. I am online.");
-    statusText.innerText = "Listening...";
+    reply("Hello Xking sir. How can I help you?");
     return;
   }
 
@@ -23,33 +28,20 @@ recognition.onresult = (event) => {
 };
 
 function handleCommand(text) {
-  let reply = "I am listening, Xking.";
+  let r = "I am listening, Xking.";
 
-  if (text.includes("hello")) {
-    reply = "Hello Xking sir. How can I help you?";
-  }
-  else if (text.includes("who built you") || text.includes("who created you")) {
-    reply = "Xking is my boss. He built me.";
-  }
-  else if (text.includes("why are you built") || text.includes("why did you build")) {
-    reply = "I was built to serve my boss Xking.";
-  }
-  else if (text.includes("who is your boss")) {
-    reply = "Xking is my boss.";
-  }
-  else if (text.includes("how are you")) {
-    reply = "I am functioning perfectly, Xking.";
-  }
-  else if (text.includes("what can you do")) {
-    reply = "I can listen to you and assist you, Xking.";
-  }
+  if (text.includes("hello")) r = "Hello Xking sir. How can I help you?";
+  else if (text.includes("who built you")) r = "Xking is my boss. He built me.";
+  else if (text.includes("who is your boss")) r = "Xking is my boss.";
+  else if (text.includes("why are you built")) r = "I was built to serve my boss Xking.";
+  else if (text.includes("what can you do")) r = "I can listen to you and assist you, Xking.";
 
-  statusText.innerText = reply;
-  speak(reply);
+  reply(r);
 }
 
-function speak(msg) {
-  const u = new SpeechSynthesisUtterance(msg);
+function reply(text) {
+  statusText.innerText = text;
+  const u = new SpeechSynthesisUtterance(text);
   u.rate = 0.9;
   u.pitch = 0.9;
   speechSynthesis.speak(u);
